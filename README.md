@@ -51,6 +51,6 @@ xml file was successfully audited, you can find the audit file 'getFilmInfoTest2
 ~~~
 从[MapperSakila.xml](https://github.com/gaozhongzheng/deployment/blob/master/file/MapperSakila.xml)解析出的SQL文件[在此](https://github.com/gaozhongzheng/deployment/tree/master/sql/MapperSakila)。
 #### 审计报告截图：
-![audit file](https://github.com/gaozhongzheng/myaudit/blob/master/doc/audit.jpg)
+![audit file](https://github.com/gaozhongzheng/myaudit/blob/master/doc/MapperSakila_audit.png)
 
 
