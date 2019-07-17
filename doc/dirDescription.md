@@ -1,0 +1,9 @@
+### /usr/local/myaudit下各目录说明：
+* audit:用于存放审计报告
+* bin:用于存放命令文件
+* file:用于存放待审计的mapper.xml文件
+* lib:用于存放Mybatis工程依赖的jar包
+* log/mapperLog:用于存放Mybatis工程打印的SQL日志
+* sh:用于存放调起Mybatis工程的shell脚本
+* sql:用于存放从mapper.xml文件中解析出来的SQL
+* tmp:用于存放Mybatis工程
