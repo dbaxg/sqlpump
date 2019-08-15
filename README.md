@@ -1,4 +1,4 @@
-![image](https://github.com/gaozhongzheng/myaudit/blob/master/doc/大黄.png)
+``` ![image](https://github.com/gaozhongzheng/myaudit/blob/master/doc/大黄.png)
 ### myaudit是一个审计SSM + MySQL开发架构中SQL映射文件（xml文件）的SQLAudit工具。
 设计思路如下：
 * 1.格式化xml文件
@@ -53,4 +53,4 @@ xml file was successfully audited, you can find the audit file 'getFilmInfoTest2
 #### 审计报告截图：
 ![audit file](https://github.com/gaozhongzheng/myaudit/blob/master/doc/MapperSakila_audit.png)
 
-
+```
