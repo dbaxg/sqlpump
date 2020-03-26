@@ -181,7 +181,7 @@ func ReadParms() {
 	//判断xml文件是否存在
 	if _, err := os.Stat(Config.Parm.FileName); err != nil {
 		//fmt.Println("Mapper file `" + Config.Parm.FileName + "` does not exist, please check!")
-		errInfo := "xml file does not exist: " + err.Error()
+		errInfo := "xml file does not exist, " + err.Error()
 		stackInfo := "\n" + string(debug.Stack()) + "\n"
 		fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 		os.Exit(1)
