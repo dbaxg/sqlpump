@@ -97,7 +97,7 @@ func ReadParms() {
 
 	// 判断用户指定的配置文件（如果不指定，则为默认配置文件）是否存在
 	if _, err := os.Stat(parameters.FileConf); err != nil {
-		errInfo := "Configuration file does not exist: " + err.Error()
+		errInfo := "Configuration file does not exist, " + err.Error()
 		stackInfo := "\n" + string(debug.Stack()) + "\n"
 		fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 		os.Exit(1)
