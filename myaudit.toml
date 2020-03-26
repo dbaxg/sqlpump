@@ -1,0 +1,17 @@
+#################################configuration template for myaudit################################
+
+[parm]
+# mapper file
+FileName = "test.xml"
+# database user
+UserName = "root"
+# password of database user
+Password = "123456"
+# database connect string
+TestDSN = "192.168.153.130:3306/sakila"
+
+[path]
+# PathRoot is very important, you must make sure the PathRoot exists and have enough privileges.
+PathRoot = "/usr/local/myaudit"
+
+#################################configuration template for myaudit################################

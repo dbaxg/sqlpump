@@ -1,9 +1,0 @@
-mkdir -p /usr/local/myaudit/audit
-mkdir -p /usr/local/myaudit/bin
-mkdir -p /usr/local/myaudit/file
-mkdir -p /usr/local/myaudit/lib
-mkdir -p /usr/local/myaudit/log/mapperLog
-mkdir -p /usr/local/myaudit/py
-mkdir -p /usr/local/myaudit/sh
-mkdir -p /usr/local/myaudit/sql
-mkdir -p /usr/local/myaudit/tmp
