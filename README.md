@@ -12,4 +12,4 @@ MYAUDIT是一个对MyBatis xml文件进行SQL提取和变量回填的自动化�
 * 支持json格式的响应信息，方便外部程序的调用
 
 ## 快速入门
-* [安装使用](https://github.com/gaozhongzheng/myaudit/tree/master/doc/install.md)
+* [安装使用](https://github.com/dbaxg/myaudit/tree/master/doc/install.md)
