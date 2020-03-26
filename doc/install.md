@@ -9,8 +9,8 @@
 ### 生成二进制文件
 
 ```bash
-go get -d github.com/gaozhongzheng/myaudit
-cd ${GOPATH}/src/github.com/dba/cmd && go build myaudit.go
+go get -d github.com/dbaxg/myaudit
+cd ${GOPATH}/src/github.com/dbaxg/cmd && go build myaudit.go
 ```
 
 ## 安装验证
