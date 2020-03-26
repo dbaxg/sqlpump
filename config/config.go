@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package common
+package config
 
 import (
 	"flag"
@@ -23,7 +23,7 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
-	"github.com/dba/myaudit/log"
+	"github.com/dbaxg/myaudit/log"
 	"runtime/debug"
 	"time"
 	"strconv"

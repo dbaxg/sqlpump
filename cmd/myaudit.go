@@ -20,12 +20,12 @@ import (
 	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/dba/myaudit/common"
-	"github.com/dba/myaudit/parse"
+	"github.com/dbaxg/myaudit/parse"
 	"database/sql"
-	"github.com/dba/myaudit/log"
+	"github.com/dbaxg/myaudit/log"
 	"fmt"
 	"os"
+	"github.com/dbaxg/myaudit/config"
 )
 
 func main() {
@@ -44,12 +44,12 @@ func main() {
 	}()
 
 	// 读取参数
-	common.ReadParms()
-	config := &common.Config
+	config.ReadParms()
+	conf := &config.Config
 	//fmt.Println("Starting to parse `" + config.Parm.FileName + "`, it will take for a while.")
 
 	// 连接数据库
-	connStr := config.Parm.UserName + ":" + config.Parm.Password + "@tcp(" + strings.Split(config.Parm.TestDSN, "/")[0] + ")/information_schema?charset=utf8"
+	connStr := conf.Parm.UserName + ":" + conf.Parm.Password + "@tcp(" + strings.Split(conf.Parm.TestDSN, "/")[0] + ")/information_schema?charset=utf8"
 	db, err := sql.Open("mysql", connStr)
 	defer db.Close()
 	if err != nil {
@@ -65,12 +65,12 @@ func main() {
 	parse.VerifyDbPass(db)
 
 	// 获取labelId及其对应sql
-	idSqlList := parse.ParseMapper(config.Parm.FileName, config.Path.PathMybatis, config.Path.PathLib, config.Parm.TestDSN, config.Parm.UserName, config.Parm.Password)
+	idSqlList := parse.ParseMapper(conf.Parm.FileName, conf.Path.PathMybatis, conf.Path.PathLib, conf.Parm.TestDSN, conf.Parm.UserName, conf.Parm.Password)
 
 	// 将sql按labelId分别写入文件并返回labelId，如果后续有审核sql的需求，可通过返回的labelId来找到对应的`.sql`文件
-	_ = parse.ReplaceAndWriteSQL2File(idSqlList, config.Path.PathSql, db, strings.Split(config.Parm.TestDSN, "/")[1])
+	_ = parse.ReplaceAndWriteSQL2File(idSqlList, conf.Path.PathSql, db, strings.Split(conf.Parm.TestDSN, "/")[1])
 	//fmt.Println("Parsing completed, the timestamp mark is " + config.Parm.Timestamp + ", you can find the .sql files in directory `" + config.Path.PathSql + "`.")
-	fmt.Println("{\n\"resultCode\": 0,\n\"sqlPath\": \"" + config.Path.PathSql + "\",\n\"errorInfo\": \"\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"\"\n}")
+	fmt.Println("{\n\"resultCode\": 0,\n\"sqlPath\": \"" + conf.Path.PathSql + "\",\n\"errorInfo\": \"\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"\"\n}")
 
 	//// 按label_id进行审计并生成对应审计报告
 	// parse.MapperAudit(config.Para.TestDSN, config.Para.UserName, config.Para.Password, labelId, config.Path.PathSql, config.Path.PathAudit, config.Para.FileName, config.Para.ReportType)

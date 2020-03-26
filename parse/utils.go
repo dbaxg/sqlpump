@@ -25,8 +25,8 @@ import (
 	"bufio"
 	"io"
 	"database/sql"
-	"github.com/dba/myaudit/log"
-	"github.com/dba/myaudit/replace"
+	"github.com/dbaxg/myaudit/log"
+	"github.com/dbaxg/myaudit/replace"
 	"runtime"
 	"bytes"
 )

@@ -18,7 +18,7 @@ package replace
 
 import (
 	"vitess.io/vitess/go/vt/sqlparser"
-	"github.com/dba/myaudit/log"
+	"github.com/dbaxg/myaudit/log"
 	"database/sql"
 	"strconv"
 	"fmt"
@@ -159,7 +159,7 @@ func getColumns(stmt sqlparser.SQLNode) [][]string {
 					continue
 				}
 			}
-			//todo 改成walk的
+			// TODO 考虑改成walk的方式？
 		case *sqlparser.RangeCond:
 			switch fNode := node.From.(type) {
 			case *sqlparser.SQLVal:

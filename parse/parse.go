@@ -22,7 +22,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"github.com/dba/myaudit/log"
+	"github.com/dbaxg/myaudit/log"
 )
 
 func ParseMapper(FileName string, pathMybatis string, pathLib string, testDb string, username string, password string) [][]string {
