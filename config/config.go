@@ -237,7 +237,7 @@ Options:
 	fmt.Println("   -u username, only need the select privs on information_schema.columns ~")
 	fmt.Println("   -p password")
 	fmt.Println("   -c configuration file, default `/usr/etc/myaudit.toml`")
-	fmt.Println("Tips: If you don't declare these parameters above, myaudit will use the parameters in the configration file.")
+	fmt.Println("Tips: If you don't declare these parameters above, myaudit will use the parameters in the configuration file.")
 }
 
 //初始化子目录和拷贝依赖jar包
