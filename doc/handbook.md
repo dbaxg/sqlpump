@@ -18,7 +18,7 @@ Tips: If you don't declare these parameters above, sqlpump will use the paramete
 # 执行解析
 
 ```bash
-[go@sqlpump ~]$ sqlpump -f /usr/local/mapper/[mapperTest.xml](https://github.com/dbaxg/sqlpump/tree/master/doc/mapperTest.xml)
+[go@sqlpump ~]$ sqlpump -f /usr/local/mapper/mapperTest.xml
 {
 "resultCode": 0,
 "sqlPath": "/usr/local/sqlpump/sql/mapperTest-1585267231364",
@@ -38,6 +38,7 @@ resultCode有0,1,2三个值，可根据sqlpump返回的json串中的resultCode�
 
 ```bash
 [go@sqlpump ~]$ cd /usr/local/sqlpump/sql/mapperTest-1585267231364
+
 [go@sqlpump mapperTest-1585267231364]$ ll
 总用量 36
 -rw-r--r--. 1 oracle oinstall 424 3月  27 08:01 dynamicChooseTest.sql
@@ -49,6 +50,7 @@ resultCode有0,1,2三个值，可根据sqlpump返回的json串中的resultCode�
 -rw-r--r--. 1 oracle oinstall 782 3月  27 08:01 dynamicTrimTest.sql
 -rw-r--r--. 1 oracle oinstall 788 3月  27 08:01 dynamicWhereTest.sql
 -rw-r--r--. 1 oracle oinstall 146 3月  27 08:01 selectByLike.sql
+
 [go@sqlpump mapperTest-1585267231364]$ more dynamicChooseTest.sql
 --select * from t_blog where 1 = 1 and title = ?;
   select * from t_blog where 1 = 1 and title = 'a';
@@ -67,7 +69,7 @@ resultCode有0,1,2三个值，可根据sqlpump返回的json串中的resultCode�
    用户可以通过修改源码来解除限制：[parse.go:215]
 
 2. sqlPath下的sql会以label id命名，文件中'--'开头的SQL为sqlpump通过执行自定义MyBatis Project解析出来的SQL，下面的SQL为sqlpump根据字段类型进行变量替换后，生成的可执行SQL。
-   mapperTest.xml中的t_blog表结构如下，sqlpump会根据变量字段的类型进行填值。
+   [mapperTest.xml](https://github.com/dbaxg/sqlpump/tree/master/doc/mapperTest.xml)中的t_blog表结构如下，sqlpump会根据变量字段的类型进行填值。
    ```hash
    mysql> desc t_blog;
    +---------+--------------+------+-----+---------+-------+
