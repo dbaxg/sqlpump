@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.myadudit.User">
+
+<select id="selectByLike" parameterType="string" resultType="com.myadudit.entity.User">
+        SELECT
+        *
+        FROM
+        t_blog
+        WHERE
+        title LIKE concat(#{pattern},'%')
+        and id in
+    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+</select>
+
+
+<select id="dynamicForeachTest" resultType="com.myadudit.entity.User">
+    select * from t_blog where id in
+    <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+</select>
+
+
+
+<select id="dynamicForeach1Test" resultType="com.myadudit.entity.User">
+    select * from t_blog where id in
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+</select>
+
+
+
+<update id="dynamicSetTest" parameterType="Blog">
+    update t_blog
+    <set>
+        <if test="title != null">
+            title = #{title},
+        </if>
+        <if test="content != null">
+            content = #{content},
+        </if>
+        <if test="owner != null">
+            owner = #{owner}
+        </if>
+    </set>
+    where id = #{id}
+</update>
+
+
+
+<select id="dynamicWhereTest" parameterType="Blog" resultType="Blog">
+    select * from t_blog 
+    <where>
+        <if test="title != null">
+            title = #{title}
+        </if>
+        <if test="content != null">
+            and content = #{content}
+        </if>
+        <if test="owner != null">
+            and owner = #{owner}
+        </if>
+    </where>
+</select>
+
+
+
+<select id="dynamicTrimTest" parameterType="Blog" resultType="Blog">
+    select * from t_blog 
+    <trim prefix="where" prefixOverrides="and |or">
+        <if test="title != null">
+            title = #{title}
+        </if>
+        <if test="content != null">
+            and content = #{content}
+        </if>
+        <if test="owner != null">
+            or owner = #{owner}
+        </if>
+    </trim>
+</select>
+
+
+
+
+<select id="dynamicChooseTest" parameterType="Blog" resultType="Blog">
+    select * from t_blog where 1 = 1 
+    <choose>
+        <when test="title != null">
+            and title = #{title}
+        </when>
+        <when test="content != null">
+            and content = #{content}
+        </when>
+        <otherwise>
+            and owner = "owner1"
+        </otherwise>
+    </choose>
+</select>
+
+
+<select id="dynamicIfTest" parameterType="Blog" resultType="Blog">
+    select * from t_blog where 1 = 1
+    <if test="title != null">
+        and title = #{title}
+    </if>
+    <if test="content != null">
+        and content = #{content}
+    </if>
+    <if test="owner != null">
+        and owner = #{owner}
+    </if>
+</select>
+
+
+<delete id="dynamicDeleteTest">
+	delete from t_blog <trim prefix="WHERE" prefixOverrides="AND">
+    <if test="title != null">
+		title = #{title}
+    </if>
+    <if test="owner != null">
+        and owner = #{owner}<!-- 
+                            注释内容 -->
+    </if>
+    </trim>
+</delete>
+
+
+</mapper>
