@@ -1,1 +1,1 @@
-# ![sqlpump设计思路](https://github.com/dbaxg/sqlpump/tree/master/doc/sqlpump.png)
+![sqlpump设计思路](https://github.com/dbaxg/sqlpump/blob/master/doc/sqlpump.png)
