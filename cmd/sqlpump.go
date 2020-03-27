@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 myaudit Author. All Rights Reserved.
+ * Copyright 2020 sqlpump Author. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ func main() {
 
 	// golang里即使用户密码错误，仍然可以正常open数据库，
 	// 所以需执行`select 1 from information_schema.columns limit 1`来验证密码和权限
-	// myaudit仅需information_schema.columns表的查询权限
+	// sqlpump仅需information_schema.columns表的查询权限
 	parse.VerifyDbPass(db)
 
 	// 获取labelId及其对应sql

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 myaudit Author. All Rights Reserved.
+ * Copyright 2020 sqlpump Author. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,13 +63,13 @@ var parameters parm
 
 /*
     1.依赖
-    myaudit依赖log4j-1.2.17.jar，mybatis-3.5.4.jar，mysql-connector-java-5.1.47.jar等3个jar包，
-    这3个jar包存放于本项目的mybatis目录下。myaudit首次运行时会进行初始化，在PathRoot路径下创建lib子目录，
-    并从$GOPATH/src/github.com/myaudit/mybatis/下拷贝这3个jar包至lib子目录。
-    如果你的myaudit binary没有和myaudit project在同一台服务器，你需要手动将jar包拷贝至lib子目录（myaudit会给出提示）。
+    sqlpump依赖log4j-1.2.17.jar，mybatis-3.5.4.jar，mysql-connector-java-5.1.47.jar等3个jar包，
+    这3个jar包存放于本项目的mybatis目录下。sqlpump首次运行时会进行初始化，在PathRoot路径下创建lib子目录，
+    并从$GOPATH/src/github.com/sqlpump/mybatis/下拷贝这3个jar包至lib子目录。
+    如果你的sqlpump binary没有和sqlpump project在同一台服务器，你需要手动将jar包拷贝至lib子目录（sqlpump会给出提示）。
 
     2.配置文件和参数
-    默认配置文件为/usr/etc/myaudit.toml，用户也可通过-c参数来指定配置文件。
+    默认配置文件为/usr/etc/sqlpump.toml，用户也可通过-c参数来指定配置文件。
     命令行传入的参数将覆盖配置文件中的参数。
  */
 
@@ -81,7 +81,7 @@ func ReadParms() {
 	flag.StringVar(&parameters.Username, "u", "", "database user ~")
 	flag.StringVar(&parameters.Password, "p", "gzz1992dba2020", "user password ~")
 	flag.StringVar(&parameters.TestDSN, "s", "", "connect string of database, like 127.0.0.1:3306/sakila ~")
-	flag.StringVar(&parameters.FileConf, "c", "/etc/myaudit.toml", "configuration file defined by users.")
+	flag.StringVar(&parameters.FileConf, "c", "/etc/sqlpump.toml", "configuration file defined by users.")
 	flag.BoolVar(&Config.Parm.Help, "h", false, "this help")
 	flag.Parse()
 
@@ -92,7 +92,7 @@ func ReadParms() {
 
 	// xmlName为文件名（不含`.xml`），后续将用于创建Mybatis project
 	var xmlName string
-	// xmlNameWithTimestamp将xml打上timestamp标记，防止同一个或同名xml文件在并发调用myaudit进行解析时产生错误
+	// xmlNameWithTimestamp将xml打上timestamp标记，防止同一个或同名xml文件在并发调用sqlpump进行解析时产生错误
 	var xmlNameWithTimestamp string
 
 	// 判断用户指定的配置文件（如果不指定，则为默认配置文件）是否存在
@@ -183,7 +183,7 @@ func ReadParms() {
 
 	//设置日志参数，在此之前发生error将无法被记录，将通过fmt.Println的方式打印错误信息和堆栈信息
 	var jsonConfig = `{
-						"filename" : "` + Config.Path.PathLog + "/myaudit.log\"" + `,
+						"filename" : "` + Config.Path.PathLog + "/sqlpump.log\"" + `,
 						"maxlines" : 100000,
 						"maxsize"  : 10240000
                            }`
@@ -222,29 +222,29 @@ func VerifyParms(config configuration) {
 	}
 }
 
-//myaudit使用说明
+// sqlpump使用说明
 func usage() {
-	fmt.Fprintf(os.Stderr, `version: myaudit-2.0
-Usage: myaudit [-h] [-f filename] [-s connStr] [-u username] [-p password] [-c fileConf]
-Example: myaudit -f mapperTest.xml -s 127.0.0.1:3306/sakila -u xxx -p xxx -c /usr/etc/myaudit.toml
+	fmt.Fprintf(os.Stderr, `version: sqlpump-1.0
+Usage: sqlpump [-h] [-f filename] [-s connStr] [-u username] [-p password] [-c fileConf]
+Example: sqlpump -f mapperTest.xml -s 127.0.0.1:3306/sakila -u xxx -p xxx -c /usr/etc/sqlpump.toml
 Options:
 `)
-	fmt.Println("   -h show the usage of myaudit ~")
+	fmt.Println("   -h show the usage of sqlpump ~")
 	fmt.Println("   -f file to parse ~")
 	fmt.Println("   -s $IP:$PORT/$DB, like 127.0.0.1:3306/sakila ~")
 	fmt.Println("   -u database username ~")
 	fmt.Println("   -p database password ~")
-	fmt.Println("   -c configuration file, default `/usr/etc/myaudit.toml`~")
-	fmt.Println("Tips: If you don't declare these parameters above, myaudit will use the parameters in the configuration file.")
+	fmt.Println("   -c configuration file, default `/etc/sqlpump.toml`~")
+	fmt.Println("Tips: If you don't declare these parameters above, sqlpump will use the parameters in the configuration file.")
 }
 
 //初始化子目录和拷贝依赖jar包
 func initialize(PathLib string, PathSql string, PathMybatis string) {
 
 	// 在PathRoot下创建lib子目录
-	// 注：只会在首次执行myaudit创建
+	// 注：只会在首次执行sqlpump创建
 	// 由于本项目依赖log4j-1.2.17.jar，mybatis-3.5.4.jar，mysql-connector-java-5.1.47.jar等jar包，
-	// 如果lib子目录下的3个jar包有缺失，则获取GOPATH环境变量，并从$GOPATH/src/github.com/dba/myaudit/mybatis下拷贝
+	// 如果lib子目录下的3个jar包有缺失，则获取GOPATH环境变量，并从$GOPATH/src/github.com/dbaxg/sqlpump/mybatis下拷贝
 	// 如果用户提前在PathRoot下创建了lib子目录，并上传了上述3个jar包，则此步不会执行。
 	mkdirLibAndCopyJar(PathLib)
 
@@ -259,7 +259,7 @@ func initialize(PathLib string, PathSql string, PathMybatis string) {
 	}
 }
 
-// 拷贝$GOPATH/src/github.com/dba/myaudit/mybatis下的jar包至PathLib
+// 拷贝$GOPATH/src/github.com/dba/sqlpump/mybatis下的jar包至PathLib
 func mkdirLibAndCopyJar(PathLib string) {
 	_, errLog4j := os.Stat(PathLib + "/log4j-1.2.17.jar")
 	_, errMybatis := os.Stat(PathLib + "/mybatis-3.5.4.jar")
@@ -267,9 +267,9 @@ func mkdirLibAndCopyJar(PathLib string) {
 
 	GOPATH := os.Getenv("GOPATH")
 	if errLog4j != nil || errMybatis != nil || errMysqlConnectorJava != nil {
-		if _, err := os.Stat(GOPATH + "/src/github.com/dbaxg/myaudit"); err != nil {
-			//fmt.Println("myaudit project does not exist, the process need to copy the jar files located in $GOPATH/src/github.com/dba/myaudit/mybatis for initialization at the first execution! You can also copy the jar files(log4j-1.2.17.jar,mybatis-3.5.4.jar,mysql-connector-java-5.1.47.jar) to `" + PathLib + "` manually.")
-			errInfo := "myaudit project does not exist, the process need to copy the jar files located in $GOPATH/src/github.com/dbaxg/myaudit/mybatis for initialization at the first execution!" +
+		if _, err := os.Stat(GOPATH + "/src/github.com/dbaxg/sqlpump"); err != nil {
+			//fmt.Println("sqlpump project does not exist, the process need to copy the jar files located in $GOPATH/src/github.com/dbaxg/sqlpump/mybatis for initialization at the first execution! You can also copy the jar files(log4j-1.2.17.jar,mybatis-3.5.4.jar,mysql-connector-java-5.1.47.jar) to `" + PathLib + "` manually.")
+			errInfo := "sqlpump project does not exist, the process need to copy the jar files located in $GOPATH/src/github.com/dbaxg/sqlpump/mybatis for initialization at the first execution!" +
 				" You can also copy the jar files(log4j-1.2.17.jar,mybatis-3.5.4.jar,mysql-connector-java-5.1.47.jar) to `" + PathLib + "` manually."
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
 			fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
@@ -280,10 +280,10 @@ func mkdirLibAndCopyJar(PathLib string) {
 		}
 	}
 
-	//如果lib子目录中的jar包不存在，则从myaudit project中拷贝
+	//如果lib子目录中的jar包不存在，则从sqlpump project中拷贝
 	if errLog4j != nil {
 		//判断mybatis project中的jar包是否存在
-		if _, err := os.Stat(GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/log4j-1.2.17.jar"); err != nil {
+		if _, err := os.Stat(GOPATH + "/src/github.com/dbaxg/sqlpump/mybatis/log4j-1.2.17.jar"); err != nil {
 			//errInfo := err.Error() + "\n you need to copy `log4j-1.2.17.jar` to `" + PathLib + "` manually."
 			errInfo := "You need to copy `log4j-1.2.17.jar` to `" + PathLib + "` manually: " + err.Error()
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
@@ -291,11 +291,11 @@ func mkdirLibAndCopyJar(PathLib string) {
 			os.Exit(1)
 		}
 		//执行拷贝
-		cmdStr := "cp " + GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/log4j-1.2.17.jar " + PathLib
+		cmdStr := "cp " + GOPATH + "/src/github.com/dbaxg/sqlpump/mybatis/log4j-1.2.17.jar " + PathLib
 		cmd := exec.Command("/bin/bash", "-c", cmdStr)
 		err := cmd.Run()
 		if err != nil {
-			errInfo := "copy " + GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/log4j-1.2.17.jar failed: " + err.Error()
+			errInfo := "copy " + GOPATH + "/src/github.com/dbaxg/sqlpump/mybatis/log4j-1.2.17.jar failed: " + err.Error()
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
 			fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 			os.Exit(1)
@@ -304,18 +304,18 @@ func mkdirLibAndCopyJar(PathLib string) {
 
 	if errMybatis != nil {
 		//判断mybatis project中的jar包是否存在
-		if _, err := os.Stat(GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/mybatis-3.5.4.jar"); err != nil {
+		if _, err := os.Stat(GOPATH + "/src/github.com/dbaxg/sqlpump/mybatis/mybatis-3.5.4.jar"); err != nil {
 			errInfo := "You need to copy `mybatis-3.5.4.jar` to `" + PathLib + "` manually: " + err.Error()
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
 			fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 			os.Exit(1)
 		}
 		//执行拷贝
-		cmdStr := "cp " + GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/mybatis-3.5.4.jar " + PathLib
+		cmdStr := "cp " + GOPATH + "/src/github.com/dbaxg/sqlpump/mybatis/mybatis-3.5.4.jar " + PathLib
 		cmd := exec.Command("/bin/bash", "-c", cmdStr)
 		err := cmd.Run()
 		if err != nil {
-			errInfo := "copy " + GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/mybatis-3.5.4.jar failed: " + err.Error()
+			errInfo := "copy " + GOPATH + "/src/github.com/dbaxg/sqlpump/mybatis/mybatis-3.5.4.jar failed: " + err.Error()
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
 			fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 			os.Exit(1)
@@ -324,18 +324,18 @@ func mkdirLibAndCopyJar(PathLib string) {
 
 	if errMysqlConnectorJava != nil {
 		//判断mybatis project中的jar包是否存在
-		if _, err := os.Stat(GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/mysql-connector-java-5.1.47.jar"); err != nil {
+		if _, err := os.Stat(GOPATH + "/src/github.com/dbaxg/sqlpump/mybatis/mysql-connector-java-5.1.47.jar"); err != nil {
 			errInfo := "you need to copy `mysql-connector-java-5.1.47.jar` to `" + PathLib + "` manually: " + err.Error()
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
 			fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 			os.Exit(1)
 		}
 		//执go行拷贝
-		cmdStr := "cp " + GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/mysql-connector-java-5.1.47.jar " + PathLib
+		cmdStr := "cp " + GOPATH + "/src/github.com/dbaxg/sqlpump/mybatis/mysql-connector-java-5.1.47.jar " + PathLib
 		cmd := exec.Command("/bin/bash", "-c", cmdStr)
 		err := cmd.Run()
 		if err != nil {
-			errInfo := "copy " + GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/mysql-connector-java-5.1.47.jar failed: " + err.Error()
+			errInfo := "copy " + GOPATH + "/src/github.com/dbaxg/sqlpump/mybatis/mysql-connector-java-5.1.47.jar failed: " + err.Error()
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
 			fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 			os.Exit(1)

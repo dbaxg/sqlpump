@@ -9,12 +9,12 @@
 ### 生成二进制文件
 
 ```bash
-cd ${GOPATH} && git clone https://github.com/dbaxg/myaudit.git
-cd myaudit/cmd && go build myaudit.go
+cd ${GOPATH} && git clone https://github.com/dbaxg/sqlpump.git
+cd sqlpump/cmd && go build sqlpump.go
 ```
 
 ## 安装验证
 
 ```bash
-./myaudit -h
+./sqlpump -h
 ```
