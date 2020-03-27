@@ -225,7 +225,7 @@ func VerifyParms(config configuration) {
 //myaudit使用说明
 func usage() {
 	fmt.Fprintf(os.Stderr, `version: myaudit-2.0
-Usage: myaudit [-h] [-t mapper] [-f filename] [-s connStr] [-u username] [-p password] [-c fileConf]
+Usage: myaudit [-h] [-f filename] [-s connStr] [-u username] [-p password] [-c fileConf]
 Example: myaudit -f mapperTest.xml -s 127.0.0.1:3306/sakila -u xxx -p xxx -c /usr/etc/myaudit.toml
 Options:
 `)
@@ -243,14 +243,10 @@ func initialize(PathLib string, PathSql string, PathMybatis string) {
 
 	// 在PathRoot下创建lib子目录
 	// 注：只会在首次执行myaudit创建
-	if _, err := os.Stat(PathLib); err != nil {
-		os.MkdirAll(PathLib, os.ModePerm)
-	}
-
 	// 由于本项目依赖log4j-1.2.17.jar，mybatis-3.5.4.jar，mysql-connector-java-5.1.47.jar等jar包，
 	// 如果lib子目录下的3个jar包有缺失，则获取GOPATH环境变量，并从$GOPATH/src/github.com/dba/myaudit/mybatis下拷贝
 	// 如果用户提前在PathRoot下创建了lib子目录，并上传了上述3个jar包，则此步不会执行。
-	copyJar(PathLib)
+	mkdirLibAndCopyJar(PathLib)
 
 	// 在PathRoot/sql下创建xmlNameWithTimestamp子目录，用于存放解析生成的sql
 	if _, err := os.Stat(PathSql); err != nil {
@@ -264,7 +260,7 @@ func initialize(PathLib string, PathSql string, PathMybatis string) {
 }
 
 // 拷贝$GOPATH/src/github.com/dba/myaudit/mybatis下的jar包至PathLib
-func copyJar(PathLib string) {
+func mkdirLibAndCopyJar(PathLib string) {
 	_, errLog4j := os.Stat(PathLib + "/log4j-1.2.17.jar")
 	_, errMybatis := os.Stat(PathLib + "/mybatis-3.5.4.jar")
 	_, errMysqlConnectorJava := os.Stat(PathLib + "/mysql-connector-java-5.1.47.jar")
@@ -278,6 +274,9 @@ func copyJar(PathLib string) {
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
 			fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 			os.Exit(1)
+		}
+		if _, err := os.Stat(PathLib); err != nil {
+			os.MkdirAll(PathLib, os.ModePerm)
 		}
 	}
 
