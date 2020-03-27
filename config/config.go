@@ -170,17 +170,8 @@ func ReadParms() {
 	Config.Path.PathSql = Config.Path.PathRoot + "/sql/" + xmlNameWithTimestamp
 	Config.Path.PathMybatis = Config.Path.PathRoot + "/tmp/" + xmlNameWithTimestamp + "/mybatis"
 
-	//设置日志参数，在此之前发生error将无法被记录，将通过fmt.Println的方式打印错误信息和堆栈信息
-	var jsonConfig = `{
-						"filename" : "` + Config.Path.PathLog + "/myaudit.log\"" + `,
-						"maxlines" : 100000,
-						"maxsize"  : 10240000
-                           }`
-	log.LogSetting(jsonConfig)
-
 	//判断xml文件是否存在
 	if _, err := os.Stat(Config.Parm.Filename); err != nil {
-		//fmt.Println("Mapper file `" + Config.Parm.FileName + "` does not exist, please check!")
 		errInfo := "xml file does not exist, " + err.Error()
 		stackInfo := "\n" + string(debug.Stack()) + "\n"
 		fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
@@ -189,6 +180,14 @@ func ReadParms() {
 
 	//初始化
 	initialize(Config.Path.PathLib, Config.Path.PathSql, Config.Path.PathMybatis)
+
+	//设置日志参数，在此之前发生error将无法被记录，将通过fmt.Println的方式打印错误信息和堆栈信息
+	var jsonConfig = `{
+						"filename" : "` + Config.Path.PathLog + "/myaudit.log\"" + `,
+						"maxlines" : 100000,
+						"maxsize"  : 10240000
+                           }`
+	log.LogSetting(jsonConfig)
 
 	//设置日志的前缀，用于标记日志是由哪一个xml文件、哪次解析产生的
 	log.Log.SetPrefix("[" + xmlNameWithTimestamp + "]")
@@ -272,9 +271,9 @@ func copyJar(PathLib string) {
 
 	GOPATH := os.Getenv("GOPATH")
 	if errLog4j != nil || errMybatis != nil || errMysqlConnectorJava != nil {
-		if _, err := os.Stat(GOPATH + "/src/github.com/dba/myaudit"); err != nil {
+		if _, err := os.Stat(GOPATH + "/src/github.com/dbaxg/myaudit"); err != nil {
 			//fmt.Println("myaudit project does not exist, the process need to copy the jar files located in $GOPATH/src/github.com/dba/myaudit/mybatis for initialization at the first execution! You can also copy the jar files(log4j-1.2.17.jar,mybatis-3.5.4.jar,mysql-connector-java-5.1.47.jar) to `" + PathLib + "` manually.")
-			errInfo := "myaudit project does not exist, the process need to copy the jar files located in $GOPATH/src/github.com/dba/myaudit/mybatis for initialization at the first execution!" +
+			errInfo := "myaudit project does not exist, the process need to copy the jar files located in $GOPATH/src/github.com/dbaxg/myaudit/mybatis for initialization at the first execution!" +
 				" You can also copy the jar files(log4j-1.2.17.jar,mybatis-3.5.4.jar,mysql-connector-java-5.1.47.jar) to `" + PathLib + "` manually."
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
 			fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
@@ -285,7 +284,7 @@ func copyJar(PathLib string) {
 	//如果lib子目录中的jar包不存在，则从myaudit project中拷贝
 	if errLog4j != nil {
 		//判断mybatis project中的jar包是否存在
-		if _, err := os.Stat(GOPATH + "/src/github.com/dba/myaudit/mybatis/log4j-1.2.17.jar"); err != nil {
+		if _, err := os.Stat(GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/log4j-1.2.17.jar"); err != nil {
 			//errInfo := err.Error() + "\n you need to copy `log4j-1.2.17.jar` to `" + PathLib + "` manually."
 			errInfo := "You need to copy `log4j-1.2.17.jar` to `" + PathLib + "` manually: " + err.Error()
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
@@ -293,11 +292,11 @@ func copyJar(PathLib string) {
 			os.Exit(1)
 		}
 		//执行拷贝
-		cmdStr := "cp " + GOPATH + "/src/github.com/dba/myaudit/mybatis/log4j-1.2.17.jar " + PathLib
+		cmdStr := "cp " + GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/log4j-1.2.17.jar " + PathLib
 		cmd := exec.Command("/bin/bash", "-c", cmdStr)
 		err := cmd.Run()
 		if err != nil {
-			errInfo := "copy " + GOPATH + "/src/github.com/dba/myaudit/mybatis/log4j-1.2.17.jar failed: " + err.Error()
+			errInfo := "copy " + GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/log4j-1.2.17.jar failed: " + err.Error()
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
 			fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 			os.Exit(1)
@@ -306,18 +305,18 @@ func copyJar(PathLib string) {
 
 	if errMybatis != nil {
 		//判断mybatis project中的jar包是否存在
-		if _, err := os.Stat(GOPATH + "/src/github.com/dba/myaudit/mybatis/mybatis-3.5.4.jar"); err != nil {
+		if _, err := os.Stat(GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/mybatis-3.5.4.jar"); err != nil {
 			errInfo := "You need to copy `mybatis-3.5.4.jar` to `" + PathLib + "` manually: " + err.Error()
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
 			fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 			os.Exit(1)
 		}
 		//执行拷贝
-		cmdStr := "cp " + GOPATH + "/src/github.com/dba/myaudit/mybatis/mybatis-3.5.4.jar " + PathLib
+		cmdStr := "cp " + GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/mybatis-3.5.4.jar " + PathLib
 		cmd := exec.Command("/bin/bash", "-c", cmdStr)
 		err := cmd.Run()
 		if err != nil {
-			errInfo := "copy " + GOPATH + "/src/github.com/dba/myaudit/mybatis/mybatis-3.5.4.jar failed: " + err.Error()
+			errInfo := "copy " + GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/mybatis-3.5.4.jar failed: " + err.Error()
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
 			fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 			os.Exit(1)
@@ -326,18 +325,18 @@ func copyJar(PathLib string) {
 
 	if errMysqlConnectorJava != nil {
 		//判断mybatis project中的jar包是否存在
-		if _, err := os.Stat(GOPATH + "/src/github.com/dba/myaudit/mybatis/mysql-connector-java-5.1.47.jar"); err != nil {
+		if _, err := os.Stat(GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/mysql-connector-java-5.1.47.jar"); err != nil {
 			errInfo := "you need to copy `mysql-connector-java-5.1.47.jar` to `" + PathLib + "` manually: " + err.Error()
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
 			fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 			os.Exit(1)
 		}
 		//执go行拷贝
-		cmdStr := "cp " + GOPATH + "/src/github.com/dba/myaudit/mybatis/mysql-connector-java-5.1.47.jar " + PathLib
+		cmdStr := "cp " + GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/mysql-connector-java-5.1.47.jar " + PathLib
 		cmd := exec.Command("/bin/bash", "-c", cmdStr)
 		err := cmd.Run()
 		if err != nil {
-			errInfo := "copy " + GOPATH + "/src/github.com/dba/myaudit/mybatis/mysql-connector-java-5.1.47.jar failed: " + err.Error()
+			errInfo := "copy " + GOPATH + "/src/github.com/dbaxg/myaudit/mybatis/mysql-connector-java-5.1.47.jar failed: " + err.Error()
 			stackInfo := "\n" + string(debug.Stack()) + "\n"
 			fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 			os.Exit(1)
