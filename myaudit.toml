@@ -3,8 +3,8 @@
 [parm]
 # MyBatis xml文件名
 Filename = "test.xml"
-# 数据库用户，只需最基本的usage权限，无需任何额外权限
-Username = "testuser"
+# 数据库用户，只需最基本的usage权限，无需任何额外权限，实际运行时可将root换为任意用户
+Username = "root"
 # 数据库用户密码
 Password = "123456"
 # 非线上环境数据库连接串
