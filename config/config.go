@@ -36,8 +36,8 @@ type configuration struct {
 }
 
 type parm struct {
-	FileName  string
-	UserName  string
+	Filename  string
+	Username  string
 	Password  string
 	TestDSN   string
 	FileConf  string
@@ -77,11 +77,11 @@ var parameters parm
 func ReadParms() {
 	//覆盖flag自带的usege方法
 	flag.Usage = usage
-	flag.StringVar(&parameters.FileName, "f", "", "file waitting for audit ~")
-	flag.StringVar(&parameters.UserName, "u", "", "database user ~")
+	flag.StringVar(&parameters.Filename, "f", "", "file waitting for audit ~")
+	flag.StringVar(&parameters.Username, "u", "", "database user ~")
 	flag.StringVar(&parameters.Password, "p", "gzz1992dba2020", "user password ~")
 	flag.StringVar(&parameters.TestDSN, "s", "", "connect string of database, like 127.0.0.1:3306/sakila ~")
-	flag.StringVar(&parameters.FileConf, "c", "/usr/etc/myaudit.toml", "configuration file defined by users.")
+	flag.StringVar(&parameters.FileConf, "c", "/etc/myaudit.toml", "configuration file defined by users.")
 	flag.BoolVar(&Config.Parm.Help, "h", false, "this help")
 	flag.Parse()
 
@@ -110,11 +110,11 @@ func ReadParms() {
 	}
 
 	// 如果通过-f等flag传入参数，则覆盖配置文件中的参数
-	if parameters.FileName != "" {
-		Config.Parm.FileName = parameters.FileName
+	if parameters.Filename != "" {
+		Config.Parm.Filename = parameters.Filename
 	}
-	if parameters.UserName != "" {
-		Config.Parm.UserName = parameters.UserName
+	if parameters.Username != "" {
+		Config.Parm.Username = parameters.Username
 	}
 	if parameters.Password != "gzz1992dba2020" {
 		//因为密码可以为空，所以parameters的password默认值不能为空，此处设为了gzz1992dba2020
@@ -137,24 +137,24 @@ func ReadParms() {
 	}
 
 	//为避免并发对同一xml文件进行解析时，导致后面执行的操作删除前面操作生成的文件，对每次操作加时间戳
-	if len(Config.Parm.FileName) < 4 {
+	if len(Config.Parm.Filename) < 4 {
 		errInfo := "Wrong file name!"
 		stackInfo := "\n" + string(debug.Stack()) + "\n"
 		fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 		os.Exit(1)
 	}
-	if Config.Parm.FileName[len(Config.Parm.FileName)-4:] != ".xml" {
+	if Config.Parm.Filename[len(Config.Parm.Filename)-4:] != ".xml" {
 		errInfo := "Wrong file name!"
 		stackInfo := "\n" + string(debug.Stack()) + "\n"
 		fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
 		os.Exit(1)
 	}
 
-	if strings.Contains(Config.Parm.FileName, "/") {
-		xmlName = Config.Parm.FileName[strings.LastIndex(Config.Parm.FileName, "/")+1:]
+	if strings.Contains(Config.Parm.Filename, "/") {
+		xmlName = Config.Parm.Filename[strings.LastIndex(Config.Parm.Filename, "/")+1:]
 		xmlName = xmlName[:strings.LastIndex(xmlName, ".")]
 	} else {
-		xmlName = Config.Parm.FileName[:strings.LastIndex(Config.Parm.FileName, ".")]
+		xmlName = Config.Parm.Filename[:strings.LastIndex(Config.Parm.Filename, ".")]
 	}
 
 	//获取时间戳
@@ -179,7 +179,7 @@ func ReadParms() {
 	log.LogSetting(jsonConfig)
 
 	//判断xml文件是否存在
-	if _, err := os.Stat(Config.Parm.FileName); err != nil {
+	if _, err := os.Stat(Config.Parm.Filename); err != nil {
 		//fmt.Println("Mapper file `" + Config.Parm.FileName + "` does not exist, please check!")
 		errInfo := "xml file does not exist, " + err.Error()
 		stackInfo := "\n" + string(debug.Stack()) + "\n"
@@ -196,7 +196,7 @@ func ReadParms() {
 
 //校验参数是否正确
 func VerifyParms(config configuration) {
-	if config.Parm.FileName == "" {
+	if config.Parm.Filename == "" {
 		//fmt.Println("Wrong parameters: filename is empty, please check!\n")
 		errInfo := "Wrong parameters: filename is empty, please check!"
 		stackInfo := "\n" + string(debug.Stack()) + "\n"
@@ -205,7 +205,7 @@ func VerifyParms(config configuration) {
 		os.Exit(1)
 
 	}
-	if config.Parm.UserName == "" {
+	if config.Parm.Username == "" {
 		//fmt.Println("Wrong parameters: username is empty, please check!\n")
 		errInfo := "Wrong parameters: username is empty, please check!"
 		stackInfo := "\n" + string(debug.Stack()) + "\n"
@@ -225,8 +225,7 @@ func VerifyParms(config configuration) {
 
 //myaudit使用说明
 func usage() {
-	fmt.Fprintf(os.Stderr, `Description for myaudit:
-version: myaudit-2.0
+	fmt.Fprintf(os.Stderr, `version: myaudit-2.0
 Usage: myaudit [-h] [-t mapper] [-f filename] [-s connStr] [-u username] [-p password] [-c fileConf]
 Example: myaudit -f MapperRole -s 127.0.0.1:3306/sakila -u root -p 123456 -c /usr/etc/myaudit.toml
 Options:
@@ -234,9 +233,9 @@ Options:
 	fmt.Println("   -h show the usage of myaudit ~")
 	fmt.Println("   -f file to parse ~")
 	fmt.Println("   -s $IP:$PORT/$DB, like 127.0.0.1:3306/sakila ~")
-	fmt.Println("   -u username, only need the select privs on information_schema.columns ~")
-	fmt.Println("   -p password")
-	fmt.Println("   -c configuration file, default `/usr/etc/myaudit.toml`")
+	fmt.Println("   -u database username ~")
+	fmt.Println("   -p database password ~")
+	fmt.Println("   -c configuration file, default `/usr/etc/myaudit.toml`~")
 	fmt.Println("Tips: If you don't declare these parameters above, myaudit will use the parameters in the configuration file.")
 }
 

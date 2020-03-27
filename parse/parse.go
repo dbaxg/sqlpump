@@ -25,16 +25,16 @@ import (
 	"github.com/dbaxg/myaudit/log"
 )
 
-func ParseMapper(FileName string, pathMybatis string, pathLib string, testDb string, username string, password string) [][]string {
+func ParseMapper(filename string, pathMybatis string, pathLib string, testDb string, username string, password string) [][]string {
 	log.LogIfInfo("Starting to parse mapper file.", "")
 
 	//xmlName为文件名（不含`.xml`），后续将用于创建Mybatis project
 	var xmlName string
-	if strings.Contains(FileName, "/") {
-		xmlName = FileName[strings.LastIndex(FileName, "/")+1:]
+	if strings.Contains(filename, "/") {
+		xmlName = filename[strings.LastIndex(filename, "/")+1:]
 		xmlName = xmlName[:strings.LastIndex(xmlName, ".")]
 	} else {
-		xmlName = FileName[:strings.LastIndex(FileName, ".")]
+		xmlName = filename[:strings.LastIndex(filename, ".")]
 	}
 
 	// 创建配置文件
@@ -67,7 +67,7 @@ func ParseMapper(FileName string, pathMybatis string, pathLib string, testDb str
 
 	//格式化xml文件
 	log.LogIfInfo("Starting to create the mapperFormatted.xml.", "")
-	xmlInput := FileName
+	xmlInput := filename
 	xmlOutput := pathMybatis + "/mapperFormatted.xml"
 	err = format(xmlInput, xmlOutput, xmlName)
 	if err == nil {
