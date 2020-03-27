@@ -1,0 +1,16 @@
+--select * from t_blog WHERE title = ?;
+  select * from t_blog WHERE title = 'a';
+--select * from t_blog WHERE content = ?;
+  select * from t_blog WHERE content = 'a';
+--select * from t_blog WHERE owner = ?;
+  select * from t_blog WHERE owner = 'a';
+--select * from t_blog WHERE title = ? and content = ?;
+  select * from t_blog WHERE title = 'a' and content = 'a';
+--select * from t_blog WHERE title = ? and owner = ?;
+  select * from t_blog WHERE title = 'a' and owner = 'a';
+--select * from t_blog WHERE content = ? and owner = ?;
+  select * from t_blog WHERE content = 'a' and owner = 'a';
+--select * from t_blog WHERE title = ? and content = ? and owner = ?;
+  select * from t_blog WHERE title = 'a' and content = 'a' and owner = 'a';
+--select * from t_blog;
+  select * from t_blog;

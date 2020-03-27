@@ -1,0 +1,14 @@
+--update t_blog SET title = ? where id = ?;
+  update t_blog SET title = 'a' where id = 1;
+--update t_blog SET content = ? where id = ?;
+  update t_blog SET content = 'a' where id = 1;
+--update t_blog SET owner = ? where id = ?;
+  update t_blog SET owner = 'a' where id = 1;
+--update t_blog SET title = ?, content = ? where id = ?;
+  update t_blog SET title = 'a', content = 'a' where id = 1;
+--update t_blog SET title = ?, owner = ? where id = ?;
+  update t_blog SET title = 'a', owner = 'a' where id = 1;
+--update t_blog SET content = ?, owner = ? where id = ?;
+  update t_blog SET content = 'a', owner = 'a' where id = 1;
+--update t_blog SET title = ?, content = ?, owner = ? where id = ?;
+  update t_blog SET title = 'a', content = 'a', owner = 'a' where id = 1;
