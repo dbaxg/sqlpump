@@ -3,7 +3,7 @@
 配置文件为[toml]格式。只需要配置FileName, UserName, Password, TestDSN和PathRoot共5个参数。
 
 
-默认文件会按照`/etc/myaudit.toml`。如需指定其他配置文件可以通过`-c`参数指定。
+默认文件为`/etc/myaudit.toml`。如需指定其他配置文件可以通过`-c`参数指定。
 
 ```text
 # configuration template for myaudit

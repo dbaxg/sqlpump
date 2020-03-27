@@ -16,6 +16,7 @@ MYAUDIT是一个对MyBatis xml文件进行SQL提取和变量回填的自动化�
 * [安装使用](https://github.com/dbaxg/myaudit/tree/master/doc/install.md)
 * [体系架构](https://github.com/dbaxg/myaudit/tree/master/doc/structure.md)
 * [配置文件](https://github.com/dbaxg/myaudit/tree/master/doc/config.md)
+* [常用命令](https://github.com/dbaxg/myaudit/tree/master/doc/command.md)
 ## License
 
 [Apache License 2.0](https://github.com/dbaxg/myaudit/tree/master/LICENSE).
