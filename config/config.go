@@ -23,7 +23,7 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
-	"github.com/dbaxg/myaudit/log"
+	"github.com/dbaxg/sqlpump/log"
 	"runtime/debug"
 	"time"
 	"strconv"

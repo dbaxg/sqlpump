@@ -25,8 +25,8 @@ import (
 	"bufio"
 	"io"
 	"database/sql"
-	"github.com/dbaxg/myaudit/log"
-	"github.com/dbaxg/myaudit/replace"
+	"github.com/dbaxg/sqlpump/log"
+	"github.com/dbaxg/sqlpump/replace"
 	"runtime"
 	"bytes"
 )

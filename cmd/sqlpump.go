@@ -20,12 +20,12 @@ import (
 	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/dbaxg/myaudit/parse"
+	"github.com/dbaxg/sqlpump/parse"
 	"database/sql"
-	"github.com/dbaxg/myaudit/log"
+	"github.com/dbaxg/sqlpump/log"
 	"fmt"
 	"os"
-	"github.com/dbaxg/myaudit/config"
+	"github.com/dbaxg/sqlpump/config"
 )
 
 func main() {

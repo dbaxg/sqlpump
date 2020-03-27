@@ -18,7 +18,7 @@ package replace
 
 import (
 	"vitess.io/vitess/go/vt/sqlparser"
-	"github.com/dbaxg/myaudit/log"
+	"github.com/dbaxg/sqlpump/log"
 	"database/sql"
 	"strconv"
 	"fmt"

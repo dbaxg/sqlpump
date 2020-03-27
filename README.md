@@ -1,10 +1,10 @@
-## MYAUDIT
+## myaudit
 
-MYAUDIT是一个对MyBatis xml文件进行SQL提取和变量回填的自动化工具。
+myaudit是一个对MyBatis xml文件进行SQL提取和变量回填的自动化工具。
 
 ## 功能特点
 
-* 与业务深度解耦，只需上传xml文件并配置开发环境的数据库信息
+* 与业务代码深度解耦，只需上传xml文件即可完成SQL提取
 * 支持提取动态SQL所有组合情况下的SQL指纹
 * 支持对SQL指纹按变量字段类型进行填值，以获得可执行的完整SQL，便于后续的SQL审核
 * 支持 UPDATE, DELETE, SELECT等类型SQL的提取

@@ -20,7 +20,7 @@ import (
 	"os"
 	"strings"
 	"strconv"
-	"github.com/dbaxg/myaudit/log"
+	"github.com/dbaxg/sqlpump/log"
 )
 
 /*

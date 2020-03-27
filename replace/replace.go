@@ -18,7 +18,7 @@ package replace
 
 import (
 	"database/sql"
-	"github.com/dbaxg/myaudit/log"
+	"github.com/dbaxg/sqlpump/log"
 	"strings"
 	"strconv"
 )
