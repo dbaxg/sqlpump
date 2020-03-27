@@ -227,7 +227,7 @@ func VerifyParms(config configuration) {
 func usage() {
 	fmt.Fprintf(os.Stderr, `version: myaudit-2.0
 Usage: myaudit [-h] [-t mapper] [-f filename] [-s connStr] [-u username] [-p password] [-c fileConf]
-Example: myaudit -f mapperTest.xml -s 127.0.0.1:3306/sakila -u root -p 123456 -c /usr/etc/myaudit.toml
+Example: myaudit -f mapperTest.xml -s 127.0.0.1:3306/sakila -u xxx -p xxx -c /usr/etc/myaudit.toml
 Options:
 `)
 	fmt.Println("   -h show the usage of myaudit ~")

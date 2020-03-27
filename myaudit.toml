@@ -2,13 +2,13 @@
 
 [parm]
 # MyBatis xml文件名
-Filename = "test.xml"
+Filename = "mapperTest.xml"
 # 数据库用户，只需最基本的usage权限，无需任何额外权限，实际运行时可将root换为任意用户
-Username = "root"
+Username = "xxx"
 # 数据库用户密码
-Password = "123456"
+Password = "xxx"
 # 非线上环境数据库连接串
-TestDSN = "192.168.153.130:3306/sakila"
+TestDSN = "127.0.0.1:3306/sakila"
 
 [path]
 # 根路径用于存放myaudit解析生成的各类文件和项目依赖，需确保根路径存在且具备读写权限
