@@ -1,0 +1,15 @@
+# configuration template for sqlpump
+
+[parm]
+# MyBatis xml文件名
+Filename = "mapperTest.xml"
+# 数据库用户，只需最基本的usage权限，无需任何额外权限，实际运行时可将root换为任意用户
+Username = "xxx"
+# 数据库用户密码
+Password = "xxx"
+# 非线上环境数据库连接串
+TestDSN = "127.0.0.1:3306/sakila"
+
+[path]
+# sqlpump，需确保根路径存在且具备读写权限
+PathRoot = "/usr/local/sqlpump"
