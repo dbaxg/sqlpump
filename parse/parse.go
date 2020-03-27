@@ -57,7 +57,7 @@ func ParseMapper(filename string, pathMybatis string, pathLib string, testDb str
 
 	// 创建DBTools.java
 	log.LogIfInfo("Starting to create DBtools.java for mybatis project.", "")
-	packageName := "package SQLAudit." + xmlName + ";"
+	packageName := "package sqlpump." + xmlName + ";"
 	err = createDBTools(pathMybatis, packageName)
 	if err == nil {
 		log.LogIfInfo("DBtools.java was created sucessfully.", "")

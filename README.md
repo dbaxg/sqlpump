@@ -13,7 +13,7 @@ SQLPUMP是一个对MyBatis xml文件进行SQL抽取和变量回填的自动化�
 
 ## 快速入门
 * [安装使用](https://github.com/dbaxg/sqlpump/tree/master/doc/install.md)
-* [体系架构](https://github.com/dbaxg/sqlpump/tree/master/doc/structure.md)
+* [设计思路](https://github.com/dbaxg/sqlpump/tree/master/doc/structure.md)
 * [配置文件](https://github.com/dbaxg/sqlpump/tree/master/doc/config.md)
 * [操作指南](https://github.com/dbaxg/sqlpump/tree/master/doc/handbook.md)
 

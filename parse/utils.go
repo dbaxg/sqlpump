@@ -70,7 +70,7 @@ func format(xmlInput string, xmlOutput string, xmlName string) error {
 		case xml.StartElement:
 			name := token.Name.Local
 			if name == "mapper" {
-				mapperFormated.WriteString("\n<mapper namespace=\"SQLAudit." + xmlName + ".newMapper\">\n")
+				mapperFormated.WriteString("\n<mapper namespace=\"sqlpump." + xmlName + ".newMapper\">\n")
 			} else if len(token.Attr) == 0 {
 				mapperFormated.WriteString("\n<" + name + ">\n")
 			} else {
@@ -217,7 +217,7 @@ func filter(xmlInput string, xmlOutput string, xmlName string) error {
 	}
 	mapperFiltered.WriteString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 	mapperFiltered.WriteString("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">\n")
-	mapperFiltered.WriteString("<mapper namespace=\"SQLAudit." + xmlName + ".newMapper\">\n")
+	mapperFiltered.WriteString("<mapper namespace=\"sqlpump." + xmlName + ".newMapper\">\n")
 	mapperFiltered.WriteString("\n")
 	buf := bufio.NewReader(mapperFormated)
 	flag := 0

@@ -79,7 +79,7 @@ func createBean(labelInfo []string, pathBean string, columnList []string, packag
 }
 
 // 创建测试程序
-func createTestProcess(labelId string, combined_list [][]string, pathMybatis string, packageName string) error {
+func createTestProcess(labelId string, combinedList [][]string, pathMybatis string, packageName string) error {
 	path := pathMybatis + "/" + "T_" + labelId + ".java"
 	fileTest, err := os.Create(path)
 	defer fileTest.Close()
@@ -89,7 +89,7 @@ func createTestProcess(labelId string, combined_list [][]string, pathMybatis str
 
 	fileTest.WriteString(packageName + "\n")
 	fileTest.WriteString("\n")
-	for _, t := range combined_list[0] {
+	for _, t := range combinedList[0] {
 		if strings.Contains(t, "collection") {
 			fileTest.WriteString("import java.util.ArrayList;\n")
 			fileTest.WriteString("import java.util.List;\n")
@@ -105,22 +105,22 @@ func createTestProcess(labelId string, combined_list [][]string, pathMybatis str
 	fileTest.WriteString("SqlSession session = DBTools.getSession();\n")
 	fileTest.WriteString("newMapper mapper = session.getMapper(newMapper.class);\n")
 	fileTest.WriteString("\n")
-	for _, t := range combined_list[0] {
+	for _, t := range combinedList[0] {
 		if strings.Contains(t, "collection") {
 			fileTest.WriteString("List<String> collection = new ArrayList<String>();\n")
-			fileTest.WriteString("collection.add(\"SQLAudit\");\n")
+			fileTest.WriteString("collection.add(\"sqlpump\");\n")
 			fileTest.WriteString("\n")
 			break
 		}
 	}
 	x := 0
-	for _, y := range combined_list {
+	for _, y := range combinedList {
 		fileTest.WriteString(labelId + " " + labelId + "_P" + strconv.Itoa(x) + " = " + "new " + labelId + "();\n")
 		for _, z := range y {
 			if strings.Contains(z, "collection") {
 				fileTest.WriteString(labelId + "_P" + strconv.Itoa(x) + "." + "set" + strings.ToUpper(string(z[0])) + z[1:] + "(" + "collection" + ");\n")
 			} else {
-				fileTest.WriteString(labelId + "_P" + strconv.Itoa(x) + "." + "set" + strings.ToUpper(string(z[0])) + z[1:] + "(" + "\"SQLAudit\"" + ");\n")
+				fileTest.WriteString(labelId + "_P" + strconv.Itoa(x) + "." + "set" + strings.ToUpper(string(z[0])) + z[1:] + "(" + "\"sqlpump\"" + ");\n")
 			}
 		}
 		fileTest.WriteString(labelId + "(" + labelId + "_P" + strconv.Itoa(x) + ", session, mapper);\n")
@@ -168,7 +168,7 @@ func createConf(pathMybatis string, xmlName string, testDb string, username stri
 	fileConf.WriteString("   </environments>\n")
 	fileConf.WriteString("\n")
 	fileConf.WriteString("   <mappers>\n")
-	fileConf.WriteString("           <mapper class=\"" + "SQLAudit." + xmlName + ".newMapper\" />\n")
+	fileConf.WriteString("           <mapper class=\"" + "sqlpump." + xmlName + ".newMapper\" />\n")
 	fileConf.WriteString("   </mappers>\n")
 	fileConf.WriteString("\n")
 	_, err = fileConf.WriteString("</configuration>")
@@ -187,7 +187,7 @@ func createLog4jProperties(pathMybatis string, xmlName string) error {
 	file_log4j_properties.WriteString("log4j.logger.com.paic.dbaudit = DEBUG\n")
 	file_log4j_properties.WriteString("\n")
 	file_log4j_properties.WriteString("### set trace###\n")
-	file_log4j_properties.WriteString("log4j.logger.SQLAudit." + xmlName + " = TRACE\n")
+	file_log4j_properties.WriteString("log4j.logger.sqlpump." + xmlName + " = TRACE\n")
 	file_log4j_properties.WriteString("\n")
 	file_log4j_properties.WriteString("### output to the console ###\n")
 	file_log4j_properties.WriteString("log4j.appender.stdConsole = org.apache.log4j.ConsoleAppender\n")
@@ -278,12 +278,12 @@ func createSh(pathMybatis string, pathLib string, idList []string, xmlName strin
 	}
 	fileSh.WriteString("\n")
 	fileSh.WriteString("echo \"Copying newMapper.xml to directory where .class files have been...\"\n")
-	fileSh.WriteString("cp " + pathMybatis + "/newMapper.xml " + pathMybatis + "/SQLAudit/" + xmlName + "\n")
+	fileSh.WriteString("cp " + pathMybatis + "/newMapper.xml " + pathMybatis + "/sqlpump/" + xmlName + "\n")
 	fileSh.WriteString("\n")
 	fileSh.WriteString("echo \"executing .class files and writing sql to " + xmlName + ".log...\"\n")
 	fileSh.WriteString("cd " + pathMybatis + "\n")
 	for _, c := range idList {
-		_, err = fileSh.WriteString("java -cp " + pathLib + "/*:. SQLAudit." + xmlName + "." + "T_" + c + "\n")
+		_, err = fileSh.WriteString("java -cp " + pathLib + "/*:. sqlpump." + xmlName + "." + "T_" + c + "\n")
 	}
 	return err
 }
