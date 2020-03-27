@@ -58,7 +58,7 @@ var Config = configuration{
 	&parm{},
 }
 
-//parameters用于接收命令行传入的参数
+// parameters用于接收命令行传入的参数
 var parameters parm
 
 /*
@@ -73,9 +73,9 @@ var parameters parm
     命令行传入的参数将覆盖配置文件中的参数。
  */
 
-//读取参数
+// 读取参数
 func ReadParms() {
-	//覆盖flag自带的usege方法
+	// 覆盖flag自带的usege方法
 	flag.Usage = usage
 	flag.StringVar(&parameters.Filename, "f", "", "file waitting for audit ~")
 	flag.StringVar(&parameters.Username, "u", "", "database user ~")
@@ -117,17 +117,17 @@ func ReadParms() {
 		Config.Parm.Username = parameters.Username
 	}
 	if parameters.Password != "gzz1992dba2020" {
-		//因为密码可以为空，所以parameters的password默认值不能为空，此处设为了gzz1992dba2020
+		// 因为密码可以为空，所以parameters的password默认值不能为空，此处设为了gzz1992dba2020
 		Config.Parm.Password = parameters.Password
 	}
 	if parameters.TestDSN != "" {
 		Config.Parm.TestDSN = parameters.TestDSN
 	}
 
-	//校验参数是否合规
+	// 校验参数是否合规
 	VerifyParms(Config)
 
-	//判断根目录是否存在（根目录需用户自行创建，并在配置文件中配置）
+	// 判断根目录是否存在（根目录需用户自行创建，并在配置文件中配置）
 	_, err := os.Stat(Config.Path.PathRoot)
 	if err != nil {
 		errInfo := "PathRoot does not exist, you need to create the dir first: " + err.Error()
@@ -136,7 +136,7 @@ func ReadParms() {
 		os.Exit(1)
 	}
 
-	//为避免并发对同一xml文件进行解析时，导致后面执行的操作删除前面操作生成的文件，对每次操作加时间戳
+	// 为避免并发对同一xml文件进行解析时，导致后面执行的操作删除前面操作生成的文件，对每次操作加时间戳
 	if len(Config.Parm.Filename) < 4 {
 		errInfo := "Wrong file name!"
 		stackInfo := "\n" + string(debug.Stack()) + "\n"
@@ -157,20 +157,20 @@ func ReadParms() {
 		xmlName = Config.Parm.Filename[:strings.LastIndex(Config.Parm.Filename, ".")]
 	}
 
-	//获取时间戳
+	// 获取时间戳
 	TimeStamp := strconv.FormatInt(time.Now().UnixNano()/1e6, 10)
 
-	//将TimeStamp记录下来，后续如果有审核sql的需求时，可以从Config.Parm.Timestamp中获取该次解析的时间戳，并从sql子目录找到该次解析出来的sql文件
+	// 将TimeStamp记录下来，后续如果有审核sql的需求时，可以从Config.Parm.Timestamp中获取该次解析的时间戳，并从sql子目录找到该次解析出来的sql文件
 	Config.Parm.Timestamp = TimeStamp
 	xmlNameWithTimestamp = xmlName + "-" + TimeStamp
 
-	//配置子目录
+	// 配置子目录
 	Config.Path.PathLib = Config.Path.PathRoot + "/lib"
 	Config.Path.PathLog = Config.Path.PathRoot
 	Config.Path.PathSql = Config.Path.PathRoot + "/sql/" + xmlNameWithTimestamp
 	Config.Path.PathMybatis = Config.Path.PathRoot + "/tmp/" + xmlNameWithTimestamp + "/mybatis"
 
-	//判断xml文件是否存在
+	// 判断xml文件是否存在
 	if _, err := os.Stat(Config.Parm.Filename); err != nil {
 		errInfo := "xml file does not exist, " + err.Error()
 		stackInfo := "\n" + string(debug.Stack()) + "\n"
@@ -178,10 +178,10 @@ func ReadParms() {
 		os.Exit(1)
 	}
 
-	//初始化
+	// 初始化
 	initialize(Config.Path.PathLib, Config.Path.PathSql, Config.Path.PathMybatis)
 
-	//设置日志参数，在此之前发生error将无法被记录，将通过fmt.Println的方式打印错误信息和堆栈信息
+	// 设置日志参数，在此之前发生error将无法被记录，将通过fmt.Println的方式打印错误信息和堆栈信息
 	var jsonConfig = `{
 						"filename" : "` + Config.Path.PathLog + "/sqlpump.log\"" + `,
 						"maxlines" : 100000,
@@ -189,23 +189,23 @@ func ReadParms() {
                            }`
 	log.LogSetting(jsonConfig)
 
-	//设置日志的前缀，用于标记日志是由哪一个xml文件、哪次解析产生的
+	// 设置日志的前缀，用于标记日志是由哪一个xml文件、哪次解析产生的
 	log.Log.SetPrefix("[" + xmlNameWithTimestamp + "]")
 }
 
-//校验参数是否正确
+// 校验参数是否正确
 func VerifyParms(config configuration) {
 	if config.Parm.Filename == "" {
-		//fmt.Println("Wrong parameters: filename is empty, please check!\n")
+		// fmt.Println("Wrong parameters: filename is empty, please check!\n")
 		errInfo := "Wrong parameters: filename is empty, please check!"
 		stackInfo := "\n" + string(debug.Stack()) + "\n"
 		fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
-		//usage()
+		// usage()
 		os.Exit(1)
 
 	}
 	if config.Parm.Username == "" {
-		//fmt.Println("Wrong parameters: username is empty, please check!\n")
+		// fmt.Println("Wrong parameters: username is empty, please check!\n")
 		errInfo := "Wrong parameters: username is empty, please check!"
 		stackInfo := "\n" + string(debug.Stack()) + "\n"
 		fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")
@@ -213,7 +213,7 @@ func VerifyParms(config configuration) {
 		os.Exit(1)
 	}
 	if config.Parm.TestDSN == "" {
-		//fmt.Println("Wrong parameters: connection string is empty, please check!\n")
+		// fmt.Println("Wrong parameters: connection string is empty, please check!\n")
 		errInfo := "Wrong parameters: connection string is empty, please check!"
 		stackInfo := "\n" + string(debug.Stack()) + "\n"
 		fmt.Println("{\n\"resultCode\": 1,\n\"sqlPath\": \"\",\n\"errorInfo\": \"" + errInfo + "\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"" + stackInfo + "\"\n}")

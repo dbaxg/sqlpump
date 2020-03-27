@@ -2,7 +2,7 @@
 
 ```bash
 [go@sqlpump ~]$ sqlpump -h
-version: sqlpump-2.0
+version: sqlpump-1.0
 Usage: sqlpump [-h] [-f filename] [-s connStr] [-u username] [-p password] [-c fileConf]
 Example: sqlpump -f mapperTest.xml -s 127.0.0.1:3306/sakila -u xxx -p xxx -c /usr/etc/sqlpump.toml
 Options:

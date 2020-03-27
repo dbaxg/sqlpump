@@ -30,4 +30,15 @@ PathRoot = "/usr/local/sqlpump"
 
 ```bash
 sqlpump -h
+version: sqlpump-1.0
+Usage: sqlpump [-h] [-f filename] [-s connStr] [-u username] [-p password] [-c fileConf]
+Example: sqlpump -f mapperTest.xml -s 127.0.0.1:3306/sakila -u xxx -p xxx -c /usr/etc/sqlpump.toml
+Options:
+   -h show the usage of sqlpump ~
+   -f file to parse ~
+   -s $IP:$PORT/$DB, like 127.0.0.1:3306/sakila ~
+   -u database username ~
+   -p database password ~
+   -c configuration file, default `/etc/sqlpump.toml`~
+Tips: If you don't declare these parameters above, sqlpump will use the parameters in the configuration file.
 ```
