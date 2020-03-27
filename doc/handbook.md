@@ -30,9 +30,9 @@ Tips: If you don't declare these parameters above, sqlpump will use the paramete
 
 ### json响应信息参数解释：
 resultCode有0,1,2三个值，可根据sqlpump返回的json串中的resultCode判断本次抽取是否成功:
-1) resultCode为0时，表示sqlpump解析成功，用户可根据json中的sqlPath获取解析出来的SQL
-2) resultCode为1时，表示sqlpump执行遇到已知报错（如用户、密码错误/文件不存在等），用户可根据errorInfo和stackInfo来定位错误
-3) resultCode为2时，表示sqlpump执行时遇到未知bug发生panic（希望永远不要出现。。。），需根据errInfo和stackInfo来定位bug
+1) resultCode为0时，表示sqlpump解析成功，用户可根据json中的sqlPath获取解析出来的SQL<br/>
+2) resultCode为1时，表示sqlpump执行遇到已知报错（如用户、密码错误/文件不存在等），用户可根据errorInfo和stackInfo来定位错误<br/>
+3) resultCode为2时，表示sqlpump执行时遇到未知bug发生panic（希望永远不要出现。。。），需根据errInfo和stackInfo来定位bug<br/>
 
 # 查看SQL
 
@@ -63,12 +63,13 @@ resultCode有0,1,2三个值，可根据sqlpump返回的json串中的resultCode�
 ```
 
 ### 补充说明：
-1. 当动态SQL中的变量个数小于等于8个时，sqlpump会对变量进行组合，然后传参，以提取出SQL所有可能的形态。
-   当动态SQL中的变量个数大于8个时，sqlpump只会对所有变量进行传参，提取出动态SQL最全面的那种形态。
-   这是因为动态变量个数太多时，组合情况会很多（2的n次方，n为动态变量个数），出于性能考虑做了限制。
+1. 当动态SQL中的变量个数小于等于8个时，sqlpump会对变量进行组合，然后传参，以提取出SQL所有可能的形态。<br/>
+   当动态SQL中的变量个数大于8个时，sqlpump只会对所有变量进行传参，提取出动态SQL最全面的那种形态。<br/>
+   这是因为动态变量个数太多时，组合情况会很多（2的n次方，n为动态变量个数），出于性能考虑做了限制。<br/>
    用户可以通过修改源码来解除限制：[parse.go:215]
 
-2. sqlPath下的sql会以label id命名，文件中'--'开头的SQL为sqlpump通过执行自定义MyBatis Project解析出来的SQL，下面的SQL为sqlpump根据字段类型进行变量替换后，生成的可执行SQL。
+2. sqlPath下的sql会以label id命名，文件中'--'开头的SQL为sqlpump通过执行自定义MyBatis Project解析出来的SQL，<br/>
+   下面的SQL为sqlpump根据字段类型进行变量替换后，生成的可执行SQL。<br/>
    [mapperTest.xml](https://github.com/dbaxg/sqlpump/tree/master/doc/mapperTest.xml)中的t_blog表结构如下，sqlpump会根据变量字段的类型进行填值。
    ```hash
    mysql> desc t_blog;
