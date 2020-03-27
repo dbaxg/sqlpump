@@ -72,6 +72,6 @@ func main() {
 	//fmt.Println("Parsing completed, the timestamp mark is " + config.Parm.Timestamp + ", you can find the .sql files in directory `" + config.Path.PathSql + "`.")
 	fmt.Println("{\n\"resultCode\": 0,\n\"sqlPath\": \"" + conf.Path.PathSql + "\",\n\"errorInfo\": \"\",\n\"panicInfo\": \"\",\n\"stackInfo\": \"\"\n}")
 
-	//// 按label_id进行审计并生成对应审计报告
+	//// 按labelId进行审计并生成对应审计报告
 	// parse.MapperAudit(config.Para.TestDSN, config.Para.UserName, config.Para.Password, labelId, config.Path.PathSql, config.Path.PathAudit, config.Para.FileName, config.Para.ReportType)
 }
