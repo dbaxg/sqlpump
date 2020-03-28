@@ -9,7 +9,8 @@
 ### 生成二进制文件
 
 ```bash
-cd ${GOPATH} && git clone https://github.com/dbaxg/sqlpump.git
+cd ${GOPATH}/src && mkdir -p github.com/dbaxg && cd github.com/dbaxg
+git clone https://github.com/dbaxg/sqlpump.git
 cd sqlpump/cmd && go build sqlpump.go
 ```
 
