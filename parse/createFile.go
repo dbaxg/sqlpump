@@ -25,7 +25,7 @@ import (
 
 /*
 
-创建Mybatis Project所需的基础文件
+创建Mybatis Project所需的基础文件.
 
  */
 
