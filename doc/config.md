@@ -19,7 +19,7 @@ Password = "xxx"
 TestDSN = "127.0.0.1:3306/sakila"
 
 [path]
-# 根路径用于存放sqlpump执行抽取的过程中生成的各类文件和项目依赖，需确保根路径存在且具备读写权限
+# 根路径用于存放sqlpump执行抽取的过程中生成的各类文件、日志和项目依赖，需确保根路径存在且具备读写权限
 PathRoot = "/usr/local/sqlpump"
 
 ```
