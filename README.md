@@ -78,7 +78,7 @@ SQLPUMP是一个对MyBatis xml文件进行SQL抽取和变量回填的自动化�
 }
 ```
 
-查看结果：
+**test.xml中，id为dynamicIfTrimTest的动态select语句的所有可能出现的SQL均被抽取出，并根据字段类型进行了赋值:**
 ```bash
 [go@sqlpump ~]$ cd /usr/local/sqlpump/sql/test-1585306149670
 [go@sqlpump ~]$ ll
@@ -102,7 +102,6 @@ SQLPUMP是一个对MyBatis xml文件进行SQL抽取和变量回填的自动化�
 --select * from t_blog where id in ( ? );
   select * from t_blog where id in ( 1 );
 ```
-**test.xml中，id为dynamicIfTrimTest的动态select语句的所有可能出现的SQL均被抽取出，并根据字段类型进行了赋值。**
 
 ## License
 
