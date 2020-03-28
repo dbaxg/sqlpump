@@ -41,8 +41,8 @@ SQLPUMP是一个对MyBatis xml文件进行SQL抽取和变量回填的自动化�
 <mapper namespace="any.namespace.is.ok">
 
 <select id="dynamicIfTrimTest" parameterType="Blog" resultType="Blog"><!--
-                            sqlpump与业务代码深度解耦，只需上传
-                            无差别的xml文件即可。连接数据库的目的是为了查询information_schema.columns表，根据字段类型给动态变量赋值，
+                            sqlpump与业务代码深度解耦，只需上传无差别的xml文件即可。
+                            连接数据库的目的是为了查询information_schema.columns表，根据字段类型给动态变量赋值，
                             后续的版本中，会考虑把变量赋值功能独立，通过参数来控制是否进行变量赋值
                             -->
     select * from t_blog
