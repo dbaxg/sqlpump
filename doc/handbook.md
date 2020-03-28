@@ -69,7 +69,7 @@ resultCode有0,1,2三个值，可根据sqlpump返回的json串中的resultCode�
    用户可以通过修改源码来解除限制：[parse.go:215]
 
 2. sqlPath下的sql会以label id命名，文件中'--'开头的SQL为sqlpump通过执行自定义MyBatis Project解析出来的SQL，<br/>
-   下面的SQL为sqlpump根据字段类型进行变量替换后，生成的可执行SQL。<br/>
+   下面的SQL为sqlpump根据字段类型进行变量赋值后，生成的可执行SQL。<br/>
    [mapperTest.xml](https://github.com/dbaxg/sqlpump/tree/master/doc/mapperTest.xml)中的t_blog表结构如下，sqlpump会根据变量字段的类型进行填值，抽取出的SQL在[这里](https://github.com/dbaxg/sqlpump/tree/master/doc/sql)。
    ```hash
    mysql> desc t_blog;

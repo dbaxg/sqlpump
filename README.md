@@ -1,12 +1,12 @@
 ## SQLPUMP
 
-SQLPUMP是一个对MyBatis xml文件进行SQL抽取和变量回填的自动化工具。
+SQLPUMP是一个对MyBatis xml文件进行SQL抽取和变量赋值的自动化工具。
 
 ## 功能特点
 
 * 与业务代码深度解耦，只需上传xml文件即可完成SQL抽取
 * 支持抽取动态SQL所有组合情况下的SQL指纹
-* 支持对SQL指纹按变量字段类型进行填值，以获得可执行的完整SQL，便于后续的SQL审核
+* 支持对SQL指纹按变量字段类型进行赋值，以获得可执行的完整SQL，便于后续的SQL审核
 * 支持 UPDATE, DELETE, SELECT等类型SQL的提取
 * 目前只支持MySQL语法族的解析和变量回填
 * 支持json格式的响应信息，方便外部程序的调用
